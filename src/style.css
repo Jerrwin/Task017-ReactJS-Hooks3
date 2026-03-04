@@ -29,13 +29,8 @@ body {
   border-bottom: 1px solid var(--border);
   position: sticky;
   top: 0;
-  background: rgba(
-    248,
-    250,
-    252,
-    0.8
-  ); /* Match your bg-color but transparent */
-  backdrop-filter: blur(10px); /* The "Glass" effect */
+  background: rgba(248, 250, 252, 0.8);
+  backdrop-filter: blur(10px);
   z-index: 100;
 }
 
@@ -75,7 +70,7 @@ body {
 .dot {
   width: 8px;
   height: 8px;
-  background-color: #22c55e; /* Green */
+  background-color: #22c55e;
   border-radius: 50%;
   box-shadow: 0 0 8px #22c55e;
   animation: pulse 2s infinite;
@@ -138,7 +133,7 @@ body {
   display: flex;
   align-items: center;
   gap: 8px;
-  background-color: #f1f5f9; /* Soft light gray */
+  background-color: #f1f5f9;
   border: 1px solid #cbd5e1;
   padding: 6px 12px;
   border-radius: 6px;
@@ -155,7 +150,7 @@ body {
 
 .render-counter .value {
   font-weight: 700;
-  color: #0284c7; /* Professional blue */
+  color: #0284c7;
   background: white;
   padding: 2px 8px;
   border-radius: 4px;
@@ -190,7 +185,7 @@ body {
 }
 
 .counter-number {
-  font-family: "Courier New", Courier, monospace; /* Monospaced font for data */
+  font-family: "Courier New", Courier, monospace;
   font-size: 1.4rem;
   font-weight: 700;
   color: #f1f5f9;
@@ -230,7 +225,8 @@ body {
 /* --- Controls --- */
 .controls-section {
   display: flex;
-  gap: 15px;
+  flex-direction: column;
+  gap: 12px;
   margin-bottom: 30px;
   background: var(--card-bg);
   padding: 20px;
@@ -239,9 +235,25 @@ body {
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
 }
 
+/* Row 1: search bar full width */
+.controls-row-search {
+  width: 100%;
+}
+
+/* Row 2: all items in one single row, pushed to the right */
+.controls-row-actions {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+  justify-content: flex-end;
+  flex-wrap: nowrap;
+  width: 100%;
+}
+
 .search-container {
   position: relative;
-  flex: 1; /* Makes search bar take up remaining space */
+  width: 100%;
 }
 
 .search-icon {
@@ -255,7 +267,7 @@ body {
 .search-input {
   width: 100%;
   box-sizing: border-box;
-  padding: 12px 15px 12px 42px;
+  padding: 12px 40px 12px 42px;
   border: 1px solid var(--border);
   border-radius: 8px;
   font-size: 1rem;
@@ -270,6 +282,80 @@ body {
   box-shadow: 0 0 0 3px var(--primary-light);
 }
 
+/* --- Search Clear Button --- */
+.search-clear-btn {
+  position: absolute;
+  right: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+  border-radius: 50%;
+  font-size: 0.8rem;
+  transition: all 0.2s;
+}
+
+.search-clear-btn:hover {
+  background-color: #fee2e2;
+  color: #ef4444;
+}
+
+/* --- Previous Search Tag --- */
+.previous-search {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.8rem;
+  color: #0284c7;
+  background-color: #e0f2fe;
+  border: 1px solid #bae6fd;
+  border-radius: 20px;
+  padding: 4px 12px;
+  margin: 0;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+/* --- Sort Button --- */
+.btn-sort {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  background-color: #f8fafc;
+  color: var(--primary-dark);
+  border: 1.5px solid var(--primary);
+  padding: 0 18px;
+  height: 44px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.88rem;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+
+.btn-sort:hover {
+  background-color: var(--primary);
+  color: white;
+  box-shadow: 0 2px 8px rgba(14, 165, 233, 0.25);
+}
+
+.btn-sort svg {
+  font-size: 1rem;
+  transition: transform 0.3s ease;
+}
+
+.btn-sort:hover svg {
+  transform: translateY(-1px);
+}
+
+/* --- Primary Button --- */
 .btn-primary {
   display: flex;
   align-items: center;
@@ -278,11 +364,13 @@ body {
   color: white;
   border: none;
   padding: 0 24px;
+  height: 44px;
   border-radius: 8px;
   cursor: pointer;
   font-weight: 600;
   font-size: 0.95rem;
   transition: background-color 0.2s;
+  white-space: nowrap;
 }
 
 .btn-primary:hover {
@@ -521,17 +609,77 @@ body {
   .header-right {
     width: 100%;
   }
-
-  .controls-section {
-    flex-direction: column;
+  .controls-row-actions {
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    gap: 8px;
   }
-  .btn-primary {
+  /* Previous search takes its own line */
+  .previous-search {
     width: 100%;
-    padding: 12px;
+  }
+  /* Sort and Refresh sit side by side on the next line */
+  .btn-sort,
+  .btn-primary {
+    flex: 1;
+    min-width: 0;
+    padding: 10px 12px;
     justify-content: center;
+    height: auto;
   }
   .banner-details {
     flex-direction: column;
     gap: 10px;
   }
+}
+
+/* --- Pagination --- */
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  margin: 10px 0 60px;
+}
+
+.page-btn {
+  min-width: 40px;
+  height: 40px;
+  padding: 0 12px;
+  border: 1.5px solid var(--border);
+  border-radius: 8px;
+  background-color: var(--card-bg);
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+}
+
+.page-btn:hover:not(:disabled) {
+  border-color: var(--primary);
+  color: var(--primary);
+  background-color: var(--primary-light);
+}
+
+.page-btn.active {
+  background-color: var(--primary);
+  border-color: var(--primary);
+  color: white;
+  box-shadow: 0 2px 8px rgba(14, 165, 233, 0.35);
+}
+
+.page-btn:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+/* --- Page Info --- */
+.page-info {
+  margin: 4px 0 0;
+  font-size: 0.82rem;
+  color: var(--text-muted);
 }
