@@ -2,9 +2,20 @@ import React, { memo } from "react";
 import { FaEnvelope, FaPhone, FaHospital } from "react-icons/fa";
 import { MdPerson } from "react-icons/md";
 
+import {
+  CardWrapper,
+  CardHeader,
+  Avatar,
+  PatientName,
+  CardBody,
+  DetailRow,
+  SelectButton,
+} from "./PatientCard.styles";
+
 const PatientCard = memo(({ patient, handleSelect, searchTerm }) => {
   console.log(`Child Rendered: ${patient.name}`);
 
+  // Helper function to highlight text
   const getHighlightedText = (text, highlight) => {
     if (!highlight) return text;
     const parts = text.split(new RegExp(`(${highlight})`, "gi"));
@@ -24,36 +35,35 @@ const PatientCard = memo(({ patient, handleSelect, searchTerm }) => {
   };
 
   return (
-    <div className="patient-card">
-      <div className="card-header">
-        <div className="avatar-circle">
+    <CardWrapper>
+      <CardHeader>
+        <Avatar>
           <MdPerson />
-        </div>
-        <h3 className="patient-name">
+        </Avatar>
+        <PatientName>
           {getHighlightedText(patient.name, searchTerm)}
-        </h3>
-      </div>
+        </PatientName>
+      </CardHeader>
 
-      <div className="card-body">
-        <p className="patient-detail">
-          <FaEnvelope className="detail-icon" />
+      <CardBody>
+        <DetailRow>
+          <FaEnvelope />
           {getHighlightedText(patient.email, searchTerm)}
-        </p>
-        <p className="patient-detail">
-          <FaPhone className="detail-icon" />
+        </DetailRow>
+        <DetailRow>
+          <FaPhone />
           {patient.phone}
-        </p>
-        <p className="patient-detail">
-          <FaHospital className="detail-icon" />
+        </DetailRow>
+        <DetailRow>
+          <FaHospital />
           {patient.company.name}
-        </p>
-      </div>
+        </DetailRow>
+      </CardBody>
 
-      {/* Notice we are passing the WHOLE 'patient' object here now! */}
-      <button className="select-btn" onClick={() => handleSelect(patient)}>
+      <SelectButton onClick={() => handleSelect(patient)}>
         View Patient Record
-      </button>
-    </div>
+      </SelectButton>
+    </CardWrapper>
   );
 });
 

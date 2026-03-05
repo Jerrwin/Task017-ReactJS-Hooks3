@@ -29,15 +29,50 @@ body {
   border-bottom: 1px solid var(--border);
   position: sticky;
   top: 0;
-  background: rgba(248, 250, 252, 0.8);
+  /* Use the variable instead of hardcoded rgba */
+  background: var(--bg-color); 
   backdrop-filter: blur(10px);
   z-index: 100;
+  transition: background 0.3s ease; /* Add smooth transition */
+}
+
+/* Styling for the new toggle button */
+.theme-toggle-btn {
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--text-main);
+  font-size: 1.2rem;
+  padding: 8px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  margin-right: 15px;
+}
+
+.theme-toggle-btn:hover {
+  background: var(--primary-light);
+  color: var(--primary);
 }
 
 .header-left {
   display: flex;
   align-items: center;
   gap: 15px;
+}
+
+/* Align the theme button and render counter side-by-side */
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 15px; /* Creates perfect spacing between the button and the counter */
+}
+
+/* Let's also remove the extra margin from the button since we are using gap now */
+.theme-toggle-btn {
+  margin-right: 0; 
 }
 
 .logo-icon {
@@ -212,16 +247,6 @@ body {
   font-size: 0.9rem;
 }
 
-.render-badge {
-  background-color: #fee2e2;
-  color: #b91c1c;
-  padding: 6px 14px;
-  border-radius: 20px;
-  font-weight: 600;
-  font-size: 0.85rem;
-  border: 1px solid #fca5a5;
-}
-
 /* --- Controls --- */
 .controls-section {
   display: flex;
@@ -377,17 +402,6 @@ body {
   background-color: var(--primary-dark);
 }
 
-/* --- NEW: Selected Patient Banner --- */
-.selected-patient-banner {
-  background: linear-gradient(to right, #ffffff, var(--primary-light));
-  border-left: 5px solid var(--primary);
-  border-radius: 12px;
-  padding: 25px;
-  margin-bottom: 30px;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-  animation: slideDown 0.3s ease-out;
-}
-
 @keyframes slideDown {
   from {
     opacity: 0;
@@ -470,93 +484,6 @@ body {
   font-size: 0.9rem;
 }
 
-/* --- Patient Cards --- */
-.patients-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-  gap: 24px;
-  margin-bottom: 60px;
-}
-
-.patient-card {
-  background: var(--card-bg);
-  padding: 24px;
-  border-radius: 12px;
-  border: 1px solid var(--border);
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
-  transition: all 0.2s;
-  display: flex;
-  flex-direction: column;
-}
-
-.patient-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-  border-color: var(--primary-light);
-}
-
-.card-header {
-  display: flex;
-  align-items: center;
-  gap: 15px;
-  margin-bottom: 20px;
-  border-bottom: 1px solid var(--border);
-  padding-bottom: 15px;
-}
-
-.avatar-circle {
-  width: 45px;
-  height: 45px;
-  background-color: var(--primary-light);
-  color: var(--primary);
-  border-radius: 50%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 1.2rem;
-}
-
-.patient-name {
-  margin: 0;
-  font-size: 1.15rem;
-  color: var(--text-main);
-}
-
-.card-body {
-  flex-grow: 1;
-}
-
-.patient-detail {
-  margin: 0 0 12px 0;
-  color: var(--text-muted);
-  font-size: 0.95rem;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.detail-icon {
-  color: #94a3b8;
-}
-
-.select-btn {
-  margin-top: 20px;
-  background-color: transparent;
-  color: var(--primary);
-  border: 1px solid var(--primary);
-  padding: 10px 15px;
-  border-radius: 8px;
-  cursor: pointer;
-  width: 100%;
-  font-weight: 600;
-  transition: all 0.2s;
-}
-
-.select-btn:hover {
-  background-color: var(--primary);
-  color: white;
-}
-
 /* --- Helpers --- */
 .highlight-text {
   background-color: #fef08a;
@@ -614,11 +541,9 @@ body {
     justify-content: flex-start;
     gap: 8px;
   }
-  /* Previous search takes its own line */
   .previous-search {
     width: 100%;
   }
-  /* Sort and Refresh sit side by side on the next line */
   .btn-sort,
   .btn-primary {
     flex: 1;
@@ -633,53 +558,61 @@ body {
   }
 }
 
-/* --- Pagination --- */
-.pagination {
+.selected-patient-banner {
+  background: linear-gradient(to right, var(--card-bg), var(--primary-light));
+  border-left: 5px solid var(--primary);
+  border-radius: 12px;
+  padding: 25px;
+  margin-bottom: 30px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  animation: slideDown 0.3s ease-out;
+}
+
+.banner-header h2 {
+  margin: 0;
+  font-size: 1.1rem;
+  color: var(--primary); 
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.banner-name {
+  margin: 0 0 10px 0;
+  font-size: 2rem;
+  color: var(--text-main);
+}
+
+.banner-details span {
   display: flex;
-  justify-content: center;
   align-items: center;
   gap: 8px;
-  margin: 10px 0 60px;
+  color: var(--text-muted);
+  font-weight: 500;
 }
 
-.page-btn {
-  min-width: 40px;
-  height: 40px;
-  padding: 0 12px;
-  border: 1.5px solid var(--border);
+.banner-details span svg {
+  color: var(--primary); 
+}
+
+.search-input {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 12px 40px 12px 42px;
+  border: 1px solid var(--border);
   border-radius: 8px;
-  background-color: var(--card-bg);
-  color: var(--text-muted);
-  font-size: 0.9rem;
-  font-weight: 600;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  font-size: 1rem;
+  outline: none;
   transition: all 0.2s;
+  background-color: var(--card-bg); 
+  color: var(--text-main);
 }
 
-.page-btn:hover:not(:disabled) {
-  border-color: var(--primary);
+/* Update Render Counter Value box */
+.render-counter .value {
+  font-weight: 700;
   color: var(--primary);
-  background-color: var(--primary-light);
-}
-
-.page-btn.active {
-  background-color: var(--primary);
-  border-color: var(--primary);
-  color: white;
-  box-shadow: 0 2px 8px rgba(14, 165, 233, 0.35);
-}
-
-.page-btn:disabled {
-  opacity: 0.35;
-  cursor: not-allowed;
-}
-
-/* --- Page Info --- */
-.page-info {
-  margin: 4px 0 0;
-  font-size: 0.82rem;
-  color: var(--text-muted);
+  background: var(--card-bg); 
+  border: 1px solid var(--border);
+  padding: 2px 8px;
+  border-radius: 4px;
 }
